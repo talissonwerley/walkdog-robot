@@ -14,16 +14,6 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
-      # Instala Node.js e dependências (se necessário para o seu projeto)
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '20'
-
-      - name: Install dependencies (npm)
-        run: npm ci
-        working-directory: ./walkdog-robot # ajuste se estiver na raiz
-
       # Garante que Python e pip estão disponíveis
       - name: Setup Python
         uses: actions/setup-python@v4
