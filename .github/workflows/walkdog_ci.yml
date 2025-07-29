@@ -8,7 +8,7 @@ on:
 
 jobs:
   test:
-    runs-on: ubuntu-latest # Usar latest é mais seguro que 24.04
+    runs-on: ubuntu-latest
 
     steps:
       - name: Checkout
@@ -19,15 +19,31 @@ jobs:
         with:
           python-version: '3.11'
 
-      - name: Install Chrome and Chromedriver
+      - name: Install Chrome and Chromedriver (matching versions)
         run: |
+          # Instala Chrome estável mais recente
+          sudo apt-get update
+          sudo apt-get install -y wget unzip
+          wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | sudo apt-key add -
+          echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" | sudo tee /etc/apt/sources.list.d/google-chrome.list
           sudo apt-get update
           sudo apt-get install -y google-chrome-stable
-          wget https://chromedriver.storage.googleapis.com/`curl -sS chromedriver.storage.googleapis.com/LATEST_RELEASE`/chromedriver_linux64.zip
-          unzip chromedriver_linux64.zip
+
+          # Obtém a versão exata do Chrome instalado
+          CHROME_VERSION=$(google-chrome-stable --version | awk '{print $3}')
+          echo "Chrome version: $CHROME_VERSION"
+
+          # Baixa o Chromedriver correspondente
+          CHROMEDRIVER_VERSION=$(curl -s https://chromedriver.storage.googleapis.com/LATEST_RELEASE_${CHROME_VERSION%.*})
+          echo "Chromedriver version: $CHROMEDRIVER_VERSION"
+
+          wget -q https://chromedriver.storage.googleapis.com/${CHROMEDRIVER_VERSION}/chromedriver_linux64.zip
+          unzip -q chromedriver_linux64.zip
           sudo mv chromedriver /usr/local/bin/chromedriver
           sudo chmod +x /usr/local/bin/chromedriver
-          google-chrome --version
+
+          # Verifica as versões
+          google-chrome-stable --version
           chromedriver --version
 
       - name: Install Python dependencies
