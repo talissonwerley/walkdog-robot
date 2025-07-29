@@ -8,7 +8,7 @@ ${DOCUMENTO}    ${EXECDIR}${/}test_data${/}document.png
 *** Keywords ***
 
 Abrir o site
-    Open Browser    ${URL}    Chrome
+    Open Browser    ${URL}    Chrome    options=--headless
     Maximize Browser Window
     Wait Until Element Is Visible    css:input[name="name"]    timeout=15s
 
