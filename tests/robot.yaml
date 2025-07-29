@@ -1,0 +1,8 @@
+# robot.yaml
+robot:
+  pythonpath:
+    - resources
+  variables:
+    - ENV: 'dev'
+  paths:
+    - tests

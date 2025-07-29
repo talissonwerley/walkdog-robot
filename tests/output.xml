@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<robot generator="Robot 7.3 (Python 3.12.7 on win32)" generated="2025-07-29T10:55:56.141266" rpa="false" schemaversion="5">
+<suite id="s1" name="Cadastro Dogwalker" source="E:\WorkSpace\Running-to-QA\walkdog\tests\cadastro_dogwalker.robot">
+<test id="s1-t1" name="Cadastro com sucesso" line="7">
+<kw name="Abrir o site" type="SETUP">
+<msg time="2025-07-29T10:55:56.178902" level="FAIL">No keyword with name 'Abrir o site' found.</msg>
+<status status="FAIL" start="2025-07-29T10:55:56.178902" elapsed="0.000000">No keyword with name 'Abrir o site' found.</status>
+</kw>
+<kw name="Close Browser" type="TEARDOWN">
+<msg time="2025-07-29T10:55:56.179901" level="FAIL">No keyword with name 'Close Browser' found.</msg>
+<status status="FAIL" start="2025-07-29T10:55:56.179901" elapsed="0.000000">No keyword with name 'Close Browser' found.</status>
+</kw>
+<tag>positivo</tag>
+<status status="FAIL" start="2025-07-29T10:55:56.177885" elapsed="0.002016">Setup failed:
+No keyword with name 'Abrir o site' found.
+
+Also teardown failed:
+No keyword with name 'Close Browser' found.</status>
+</test>
+<test id="s1-t2" name="CPF inválido" line="13">
+<kw name="Abrir o site" type="SETUP">
+<msg time="2025-07-29T10:55:56.180901" level="FAIL">No keyword with name 'Abrir o site' found.</msg>
+<status status="FAIL" start="2025-07-29T10:55:56.180901" elapsed="0.000000">No keyword with name 'Abrir o site' found.</status>
+</kw>
+<kw name="Close Browser" type="TEARDOWN">
+<msg time="2025-07-29T10:55:56.181901" level="FAIL">No keyword with name 'Close Browser' found.</msg>
+<status status="FAIL" start="2025-07-29T10:55:56.181901" elapsed="0.000000">No keyword with name 'Close Browser' found.</status>
+</kw>
+<tag>negativo</tag>
+<status status="FAIL" start="2025-07-29T10:55:56.179901" elapsed="0.002000">Setup failed:
+No keyword with name 'Abrir o site' found.
+
+Also teardown failed:
+No keyword with name 'Close Browser' found.</status>
+</test>
+<test id="s1-t3" name="Email inválido" line="19">
+<kw name="Abrir o site" type="SETUP">
+<msg time="2025-07-29T10:55:56.182891" level="FAIL">No keyword with name 'Abrir o site' found.</msg>
+<status status="FAIL" start="2025-07-29T10:55:56.182891" elapsed="0.000000">No keyword with name 'Abrir o site' found.</status>
+</kw>
+<kw name="Close Browser" type="TEARDOWN">
+<msg time="2025-07-29T10:55:56.183901" level="FAIL">No keyword with name 'Close Browser' found.</msg>
+<status status="FAIL" start="2025-07-29T10:55:56.183901" elapsed="0.000000">No keyword with name 'Close Browser' found.</status>
+</kw>
+<tag>negativo</tag>
+<status status="FAIL" start="2025-07-29T10:55:56.181901" elapsed="0.002000">Setup failed:
+No keyword with name 'Abrir o site' found.
+
+Also teardown failed:
+No keyword with name 'Close Browser' found.</status>
+</test>
+<test id="s1-t4" name="Campos obrigatórios vazios" line="25">
+<kw name="Abrir o site" type="SETUP">
+<msg time="2025-07-29T10:55:56.184890" level="FAIL">No keyword with name 'Abrir o site' found.</msg>
+<status status="FAIL" start="2025-07-29T10:55:56.184890" elapsed="0.000000">No keyword with name 'Abrir o site' found.</status>
+</kw>
+<kw name="Close Browser" type="TEARDOWN">
+<msg time="2025-07-29T10:55:56.185890" level="FAIL">No keyword with name 'Close Browser' found.</msg>
+<status status="FAIL" start="2025-07-29T10:55:56.185890" elapsed="0.000000">No keyword with name 'Close Browser' found.</status>
+</kw>
+<tag>negativo</tag>
+<status status="FAIL" start="2025-07-29T10:55:56.183901" elapsed="0.001989">Setup failed:
+No keyword with name 'Abrir o site' found.
+
+Also teardown failed:
+No keyword with name 'Close Browser' found.</status>
+</test>
+<status status="FAIL" start="2025-07-29T10:55:56.143266" elapsed="0.042624"/>
+</suite>
+<statistics>
+<total>
+<stat pass="0" fail="4" skip="0">All Tests</stat>
+</total>
+<tag>
+<stat pass="0" fail="3" skip="0">negativo</stat>
+<stat pass="0" fail="1" skip="0">positivo</stat>
+</tag>
+<suite>
+<stat name="Cadastro Dogwalker" id="s1" pass="0" fail="4" skip="0">Cadastro Dogwalker</stat>
+</suite>
+</statistics>
+<errors>
+<msg time="2025-07-29T10:55:56.177278" level="ERROR">Error in file 'E:\WorkSpace\Running-to-QA\walkdog\tests\cadastro_dogwalker.robot' on line 2: Resource file '..\resources\keywords.robot' does not exist.</msg>
+</errors>
+</robot>
