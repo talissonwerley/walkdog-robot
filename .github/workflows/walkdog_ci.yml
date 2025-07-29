@@ -8,23 +8,38 @@ on:
 
 jobs:
   test:
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-latest # Usar latest é mais seguro que 24.04
 
     steps:
       - name: Checkout
         uses: actions/checkout@v3
 
-      # Garante que Python e pip estão disponíveis
       - name: Setup Python
         uses: actions/setup-python@v4
         with:
           python-version: '3.11'
 
-      - name: Install Python dependencies (Robot Framework)
+      - name: Install Chrome and Chromedriver
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y google-chrome-stable
+          wget https://chromedriver.storage.googleapis.com/`curl -sS chromedriver.storage.googleapis.com/LATEST_RELEASE`/chromedriver_linux64.zip
+          unzip chromedriver_linux64.zip
+          sudo mv chromedriver /usr/local/bin/chromedriver
+          sudo chmod +x /usr/local/bin/chromedriver
+          google-chrome --version
+          chromedriver --version
+
+      - name: Install Python dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install robotframework robotframework-seleniumlibrary
+          pip install robotframework robotframework-seleniumlibrary==6.1.0
 
-      # Executa os testes Robot
+      - name: Verify test data
+        run: |
+          mkdir -p test_data
+          ls -la test_data/
+
       - name: Run Robot Framework Tests
-        run: robot tests/
+        run: |
+          robot --variable DOCUMENTO:${GITHUB_WORKSPACE}/test_data/document.png tests/
