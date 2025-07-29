@@ -4,13 +4,19 @@ Library    SeleniumLibrary
 *** Variables ***
 ${URL}          https://walkdog.vercel.app/signup
 ${DOCUMENTO}    ${EXECDIR}${/}test_data${/}document.png
+${BROWSER}      Chrome
 
 *** Keywords ***
 
 Abrir o site
-    Open Browser    ${URL}    Chrome    options=--headless
+    ${chrome_options}=    Evaluate    sys.modules['selenium.webdriver'].ChromeOptions()    sys, selenium.webdriver
+    Call Method    ${chrome_options}    add_argument    --headless
+    Call Method    ${chrome_options}    add_argument    --no-sandbox
+    Call Method    ${chrome_options}    add_argument    --disable-dev-shm-usage
+    Create WebDriver    Chrome    options=${chrome_options}
+    Go To    ${URL}
     Maximize Browser Window
-    Wait Until Element Is Visible    css:input[name="name"]    timeout=15s
+    Wait Until Element Is Visible    css:input[name="name"]    timeout=30s
 
 Fechar navegador
     Close Browser
