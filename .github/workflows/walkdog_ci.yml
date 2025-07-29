@@ -1,0 +1,29 @@
+name: Walkdog - Robot CI
+
+on:
+  push:
+    branches: [testes]
+  pull_request:
+    branches: [testes]
+
+jobs:
+  run-newman-tests:
+    runs-on: ubuntu-24.04
+
+    steps:
+      - name: Checkout do código
+        uses: actions/checkout@v3
+
+      - name: Instalar Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Instalar Robot Framework CLI
+        run: pip install robotframework
+
+      - name: Instalar dependências do projeto
+        run: npm ci
+
+      - name: Executar testes
+        run: robot tests/cadastro_dogwalker.robot
