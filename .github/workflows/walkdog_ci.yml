@@ -7,23 +7,22 @@ on:
     branches: [testes]
 
 jobs:
-  run-newman-tests:
-    runs-on: ubuntu-24.04
+  test:
+    runs-on: ubuntu-latest
 
     steps:
       - name: Checkout do código
         uses: actions/checkout@v3
 
-      - name: Instalar Node.js
-        uses: actions/setup-node@v4
+      - name: Usar Node.js
+        uses: actions/setup-node@v3
         with:
           node-version: '20'
 
-      - name: Instalar Robot Framework CLI
-        run: pip install robotframework
-
-      - name: Instalar dependências do projeto
+      - name: Instalar dependências
         run: npm ci
+        working-directory: ./walkdog-robot # 👈 ajuste conforme o nome real da subpasta
 
-      - name: Executar testes
-        run: robot tests/cadastro_dogwalker.robot
+      - name: Rodar testes
+        run: npx robotframework tests/
+        working-directory: ./walkdog-robot # 👈 se seus testes estiverem lá dentro
