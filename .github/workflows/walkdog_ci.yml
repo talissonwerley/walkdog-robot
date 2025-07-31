@@ -19,28 +19,28 @@ jobs:
         with:
           python-version: '3.11'
 
-      - name: Install specific Chrome version
+      - name: Install Chrome and ChromeDriver (compatible versions)
         run: |
-          # Versões específicas e compatíveis (Chrome 114 e ChromeDriver 114.0.5735.90)
-          CHROME_VERSION="114.0.5735.90-1"
-          CHROMEDRIVER_VERSION="114.0.5735.90"
+          # Versões comprovadamente compatíveis e disponíveis
+          CHROME_VERSION="120.0.6099.109-1"
+          CHROMEDRIVER_VERSION="120.0.6099.109"
 
-          # Instala o Chrome específico
+          # Instalação do Chrome
           sudo apt-get update
           sudo apt-get install -y wget
-          wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | sudo apt-key add -
-          echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" | sudo tee /etc/apt/sources.list.d/google-chrome.list
+          wget -q -O - https://dl.google.com/linux/linux_signing_key.pub | sudo gpg --dearmor -o /usr/share/keyrings/googlechrome-linux-keyring.gpg
+          echo "deb [arch=amd64 signed-by=/usr/share/keyrings/googlechrome-linux-keyring.gpg] http://dl.google.com/linux/chrome/deb/ stable main" | sudo tee /etc/apt/sources.list.d/google-chrome.list
           sudo apt-get update
           sudo apt-get install -y google-chrome-stable=$CHROME_VERSION
           sudo apt-mark hold google-chrome-stable
 
-          # Baixa e instala o ChromeDriver específico
+          # Instalação do ChromeDriver
           wget -q https://chromedriver.storage.googleapis.com/$CHROMEDRIVER_VERSION/chromedriver_linux64.zip
           unzip chromedriver_linux64.zip
           sudo mv chromedriver /usr/local/bin/
           sudo chmod +x /usr/local/bin/chromedriver
 
-          # Verifica as versões instaladas
+          # Verificações
           echo "Chrome version: $(google-chrome-stable --version)"
           echo "ChromeDriver version: $(chromedriver --version)"
 
