@@ -8,7 +8,7 @@ on:
 
 jobs:
   test:
-    runs-on: ubuntu-22.04 # Versão mais estável, evita Chrome 138
+    runs-on: ubuntu-22.04
 
     steps:
       - name: Checkout
@@ -19,19 +19,30 @@ jobs:
         with:
           python-version: '3.11'
 
-      - name: Baixar e instalar ChromeDriver
+      - name: Install specific Chrome version
         run: |
-          CHROME_VERSION=$(google-chrome --version | grep -o '[0-9.]\+')
-          LATEST_CHROMEDRIVER=$(curl -s https://chromedriver.storage.googleapis.com/LATEST_RELEASE_${CHROME_VERSION%%.*})
-          wget -q https://chromedriver.storage.googleapis.com/$LATEST_CHROMEDRIVER/chromedriver_linux64.zip
+          # Versões específicas e compatíveis (Chrome 114 e ChromeDriver 114.0.5735.90)
+          CHROME_VERSION="114.0.5735.90-1"
+          CHROMEDRIVER_VERSION="114.0.5735.90"
+
+          # Instala o Chrome específico
+          sudo apt-get update
+          sudo apt-get install -y wget
+          wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | sudo apt-key add -
+          echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" | sudo tee /etc/apt/sources.list.d/google-chrome.list
+          sudo apt-get update
+          sudo apt-get install -y google-chrome-stable=$CHROME_VERSION
+          sudo apt-mark hold google-chrome-stable
+
+          # Baixa e instala o ChromeDriver específico
+          wget -q https://chromedriver.storage.googleapis.com/$CHROMEDRIVER_VERSION/chromedriver_linux64.zip
           unzip chromedriver_linux64.zip
           sudo mv chromedriver /usr/local/bin/
           sudo chmod +x /usr/local/bin/chromedriver
-          echo "/usr/local/bin" >> $GITHUB_PATH
 
-          # Verificações
-          google-chrome --version
-          chromedriver --version
+          # Verifica as versões instaladas
+          echo "Chrome version: $(google-chrome-stable --version)"
+          echo "ChromeDriver version: $(chromedriver --version)"
 
       - name: Install Python dependencies
         run: |
@@ -41,7 +52,6 @@ jobs:
       - name: Prepare test data folder
         run: |
           mkdir -p test_data
-          # Exemplo: coloca uma imagem se necessário
           echo "placeholder" > test_data/document.png
 
       - name: Run Robot Framework tests
