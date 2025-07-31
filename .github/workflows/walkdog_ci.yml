@@ -8,7 +8,7 @@ on:
 
 jobs:
   test:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04 # Versão mais estável, evita Chrome 138
 
     steps:
       - name: Checkout
@@ -19,22 +19,25 @@ jobs:
         with:
           python-version: '3.11'
 
-      - name: Install specific Chrome and Chromedriver
+      - name: Install Chrome 116 and Chromedriver 116
         run: |
           sudo apt-get update
-          sudo apt-get install -y wget unzip
+          sudo apt-get install -y wget unzip curl
 
-          # Instala o Chrome v116
+          # Remove qualquer chrome pré-instalado
+          sudo apt remove -y google-chrome-stable || true
+
+          # Instala o Chrome 116
           wget https://dl.google.com/linux/chrome/deb/pool/main/g/google-chrome-stable/google-chrome-stable_116.0.5845.96-1_amd64.deb
           sudo dpkg -i google-chrome-stable_116.0.5845.96-1_amd64.deb || sudo apt-get -f install -y
 
-          # Instala o Chromedriver v116
+          # Instala o Chromedriver 116
           wget https://chromedriver.storage.googleapis.com/116.0.5845.96/chromedriver_linux64.zip
           unzip chromedriver_linux64.zip
           sudo mv chromedriver /usr/local/bin/
           sudo chmod +x /usr/local/bin/chromedriver
 
-          # Verifica versões
+          # Verificações
           google-chrome --version
           chromedriver --version
 
@@ -43,11 +46,12 @@ jobs:
           python -m pip install --upgrade pip
           pip install robotframework robotframework-seleniumlibrary==6.1.0
 
-      - name: Verify test data
+      - name: Prepare test data folder
         run: |
           mkdir -p test_data
-          ls -la test_data/
+          # Exemplo: coloca uma imagem se necessário
+          echo "placeholder" > test_data/document.png
 
-      - name: Run Robot Framework Tests
+      - name: Run Robot Framework tests
         run: |
           robot --variable DOCUMENTO:${GITHUB_WORKSPACE}/test_data/document.png tests/
