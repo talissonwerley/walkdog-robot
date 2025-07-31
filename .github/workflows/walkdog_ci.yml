@@ -19,23 +19,15 @@ jobs:
         with:
           python-version: '3.11'
 
-      - name: Install Chrome 116 and Chromedriver 116
+      - name: Baixar e instalar ChromeDriver
         run: |
-          sudo apt-get update
-          sudo apt-get install -y wget unzip curl
-
-          # Remove qualquer chrome pré-instalado
-          sudo apt remove -y google-chrome-stable || true
-
-          # Instala o Chrome 116
-          wget https://dl.google.com/linux/chrome/deb/pool/main/g/google-chrome-stable/google-chrome-stable_116.0.5845.96-1_amd64.deb
-          sudo dpkg -i google-chrome-stable_116.0.5845.96-1_amd64.deb || sudo apt-get -f install -y
-
-          # Instala o Chromedriver 116
-          wget https://chromedriver.storage.googleapis.com/116.0.5845.96/chromedriver_linux64.zip
+          CHROME_VERSION=$(google-chrome --version | grep -o '[0-9.]\+')
+          LATEST_CHROMEDRIVER=$(curl -s https://chromedriver.storage.googleapis.com/LATEST_RELEASE_${CHROME_VERSION%%.*})
+          wget -q https://chromedriver.storage.googleapis.com/$LATEST_CHROMEDRIVER/chromedriver_linux64.zip
           unzip chromedriver_linux64.zip
           sudo mv chromedriver /usr/local/bin/
           sudo chmod +x /usr/local/bin/chromedriver
+          echo "/usr/local/bin" >> $GITHUB_PATH
 
           # Verificações
           google-chrome --version
